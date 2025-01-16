@@ -104,7 +104,7 @@ mess_del = df[df['Message'] == ' This message was deleted']  #Cleaning the data 
 df = df.drop(mess_del.index)
 
 no_ofemoji_ingroup()
-print("\nNumber of Media file sent by users:\n",media_perperson())
 emoji_perperson()
+print("\nNumber of Media file sent by users:\n",media_perperson())
 print("\nNo of Messages per user:\n",no_ofmsg_perperson())
 plot_graphs()
