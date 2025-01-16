@@ -1,5 +1,3 @@
-
-#In[]:
 import pandas as pd
 import re
 import matplotlib.pyplot as plot
@@ -8,11 +6,8 @@ import emoji
 def no_ofmsg_perperson():
     author_value_counts = df['Author'].value_counts() # Number of messages per author
     top_10_author_value_counts = author_value_counts.head(10) # Number of messages per author for the top 10 most active authors
-    print("\nNo of Messages per user:\n" ,author_value_counts)
-    top_10_author_value_counts.plot.barh()
-    plot.xlabel("No. of Messages")
-    plot.ylabel("User")
-    plot.title("Top 10 Messages per User")
+    return top_10_author_value_counts
+   
     
 
 def no_ofemoji_ingroup():
@@ -38,13 +33,9 @@ def media_perperson():
     media = df[df['Message'] == " <Media omitted>"]
     author_media_messages_value_counts = media['Author'].value_counts()
     top_10_author_media_messages_value_counts = author_media_messages_value_counts.head(10)
-    #top_10_author_media_messages_value_counts.plot.barh()
-    #plot.ylabel('Author')
-    #plot.xlabel('Media items sent')
-    #plot.title('Top 10 Media Items sent per Author')
-    print("\nNumber of Media file sent by users:\n",author_media_messages_value_counts)
-    
-    
+    return top_10_author_media_messages_value_counts
+
+
 def emoji_perperson():
     # Find Top 5 emoji used by per person
     y = df['Author'].unique()
@@ -63,9 +54,30 @@ def emoji_perperson():
         else:
             print("\n {} has not used emoji in this group".format(name))
 
+def plot_graphs():
+    # Create subplots (2 row, 1 columns)
+    fig, ax = plot.subplots(2, 1, figsize=(14, 7))
+
+    # Plot number of messages per user
+    top_10_msg = no_ofmsg_perperson()
+    ax[0].barh(top_10_msg.index, top_10_msg.values)
+    ax[0].set_xlabel("No. of Messages")
+    ax[0].set_ylabel("User")
+    ax[0].set_title("Top 10 Messages per User")
+
+    # Plot number of media sent per user
+    top_10_media = media_perperson()
+    ax[1].barh(top_10_media.index, top_10_media.values)
+    ax[1].set_xlabel("Media Items Sent")
+    ax[1].set_ylabel("User")
+    ax[1].set_title("Top 10 Media Items Sent per User")
+
+    # Display both plots
+    plot.tight_layout()  # Adjust spacing between plots
+    plot.show()
             
       
-file = open('Add your text files here','r', encoding="utf-8")
+file = open('Group_chat.txt.txt','r', encoding="utf-8")
 read = file.readlines()
 data=[]
 for x in read:
@@ -92,12 +104,7 @@ mess_del = df[df['Message'] == ' This message was deleted']  #Cleaning the data 
 df = df.drop(mess_del.index)
 
 no_ofemoji_ingroup()
-media_perperson()
+print("\nNumber of Media file sent by users:\n",media_perperson())
 emoji_perperson()
-no_ofmsg_perperson()
-
-
-
-
-
-# %%
+print("\nNo of Messages per user:\n",no_ofmsg_perperson())
+plot_graphs()
