@@ -77,7 +77,7 @@ def plot_graphs():
     plot.show()
             
       
-file = open('Group_chat.txt.txt','r', encoding="utf-8")
+file = open('Drop your text file','r', encoding="utf-8")
 read = file.readlines()
 data=[]
 for x in read:
@@ -88,16 +88,17 @@ for x in read:
         dateTime = splitLine[0] # dateTime = '18/06/17, 22:47'
         k= dateTime.split(', ') # date = '18/06/17'; time = '22:47'
         date=k[0]
+        time=k[1]
         message = ' '.join(splitLine[1:]) 
         chck = re.findall(':',message) #checks if some1 left the group
         if chck:
             author,comments = message.split(":",1) #split at 1st ':'
-            data.append([date, author, comments])
+            data.append([date,time, author, comments])
     else:
         if x!="":
-            data.append([ date ,author ,x])
+            data.append([ date ,time,author ,x])
 
-df=pd.DataFrame(data,columns=['Date', 'Author', 'Message'])
+df=pd.DataFrame(data,columns=['Date','Time', 'Author', 'Message'])
 
 print("\nThe group was most active on {}\n".format(df['Date'].value_counts().head(1)))
 mess_del = df[df['Message'] == ' This message was deleted']  #Cleaning the data frame by elemenating the messages deleted by user
