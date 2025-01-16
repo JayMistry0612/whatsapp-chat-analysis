@@ -65,7 +65,7 @@ def emoji_perperson():
 
             
       
-file = open('Group_chat.txt.txt','r', encoding="utf-8")
+file = open('Add your text files here','r', encoding="utf-8")
 read = file.readlines()
 data=[]
 for x in read:
